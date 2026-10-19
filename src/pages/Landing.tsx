@@ -274,7 +274,7 @@ export const LandingPage: React.FC = () => {
                             type="button"
                             className="admin-btn"
                             onClick={() => {
-                                window.location.href = 'http://localhost:5173/admin';
+                                window.location.href = '/admin';
                             }}
                         >
                             [ADMIN]

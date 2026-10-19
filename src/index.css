@@ -1,0 +1,61 @@
+:root {
+  --bg-ivory: #F5F0E6;
+  --card-cream: #FAF9F5;
+  --point-brown: #5C4033;
+  --soft-brown: #E8DCC4;
+  --text-dark: #332C27;
+}
+
+body {
+  background-color: var(--bg-ivory);
+  color: var(--text-dark);
+}
+
+.text-brown { color: var(--point-brown) !important; }
+.bg-cream { background-color: var(--card-cream) !important; }
+.bg-soft-brown { background-color: var(--soft-brown) !important; }
+
+.custom-navbar {
+  background-color: rgba(245, 240, 230, 0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.hero-section {
+  padding-top: 140px;
+  padding-bottom: 80px;
+}
+
+.app-mockup {
+  max-width: 280px;
+  transition: transform 0.3s ease;
+}
+
+.app-mockup:hover {
+  transform: translateY(-5px);
+}
+
+.custom-card {
+  background-color: var(--card-cream);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.custom-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+}
+
+.icon-box {
+  width: 64px;
+  height: 64px;
+  background-color: var(--bg-ivory);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-footer {
+  background-color: var(--bg-ivory);
+}

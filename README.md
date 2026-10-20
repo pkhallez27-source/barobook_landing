@@ -1,75 +1,24 @@
-# React + TypeScript + Vite
+# 📚 바로북 (Barobook) - 스마트 독서 기록장
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+모바일 앱과 PC 관리자 페이지가 실시간으로 연동되는 나만의 스마트 독서 기록 서비스입니다.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ 주요 기능
+* **📱 모바일 / PC 실시간 동기화**: 모바일 앱과 PC 관리자 페이지가 하나의 데이터베이스로 연동되어 언제 어디서나 동일한 기록을 실시간 확인
+* **📊 완독 통계 리포트**: 총 완독 도서 수, 전체 도서 현황, 독서 진행률 등을 직관적인 통계 리포트로 제공
+* **🔍 도서 검색 및 바코드 스캔**: 카카오 도서 검색 API와 카메라 바코드 스캐너를 활용한 간편한 도서 등록
+* **🛠️ 관리자 페이지**: 전체 사용자 및 도서 현황을 통합 관리하는 웹 관리자 시스템
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
+* **Frontend / Web**: React, TypeScript, Vite, Bootstrap 5, React-Bootstrap
+* **Mobile**: Flutter
+* **Backend**: Java, Spring Boot, MySQL
+* **Deployment**: Vercel (Web), Server (Backend/Database)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+## 👥 Team
+* **Barobook Project Team** (부산IT교육센터 풀스택 과정)

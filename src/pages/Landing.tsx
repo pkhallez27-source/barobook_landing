@@ -179,12 +179,12 @@ function LandingPage() {
                     <h2 className="fw-bold mb-3">지금 바로 스마트한 독서를 시작해보세요!</h2>
                     <p className="lead mb-4 text-white-50">바로북과 함께 당신의 독서 성장을 기록해 드립니다.</p>
                     <a
-                        href="http://barobook.kro.kr/"
+                        href="https://play.google.com"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn-light btn-lg fw-bold px-5 text-primary shadow"
                     >
-                        바로북앱 바로가기
+                        바로북앱 다운로드
                     </a>
                 </div>
             </section>

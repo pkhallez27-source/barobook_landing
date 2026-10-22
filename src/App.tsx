@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Landing from './pages/Landing'; // 파일명이 LandingPage.tsx라면 './pages/LandingPage' 로 변경
+import Login from './pages/Login';
 import Admin from './pages/Admin';
-import Landing from './pages/Landing';
-import Login from './pages/Login'; // 1. 새로 만든 Login 컴포넌트 임포트
 
 function App() {
-    // 2. 로그인 상태 관리 (기본값: false - 로그인 안 됨)
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    return (
+        <Router>
+            <Routes>
+                {/* 1. 메인 랜딩 페이지 */}
+                <Route path="/" element={<Landing />} />
 
-    // 브라우저 주소창 경로 확인
-    const path = window.location.pathname;
+                {/* 2. 로그인 페이지 */}
+                <Route path="/login" element={<Login />} />
 
-    // 주소가 /admin 일 때
-    if (path === '/admin') {
-        // 3. 로그인이 안 되어 있으면 로그인 창을 먼저 띄우고, 로그인 성공 시 관리자 페이지 표시
-        if (!isLoggedIn) {
-            return <Login onLoginSuccess={() => setIsLoggedIn(true)} />;
-        }
-        return <Admin />;
-    }
+                {/* 3. 관리자 페이지 (Admin 내부 useEffect에서 토큰 검증 후 없으면 /login으로 자동 이동) */}
+                <Route path="/admin" element={<Admin />} />
 
-    // 메인 주소(/)일 때 새로 작성한 랜딩 페이지 보여주기
-    return <Landing />;
-}
+                {/* 4. 잘못된 경로로 접근 시 메인 랜딩 페이지로 리다이렉트 */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+        </Router>
+    );
+} 
 
 export default App;

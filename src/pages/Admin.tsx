@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Table, Button, Badge, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-// 회원 데이터 타입 정의 (흥수 님 수정 사항 반영: grade)
+// 백엔드 기본 도메인 주소
+const BASE_URL = 'http://barobook.kro.kr';
+
+// 회원 데이터 타입 정의
 interface UserItem {
     u_idx: number;
     u_id: string;
@@ -11,7 +15,7 @@ interface UserItem {
     grade: 'USER' | 'ADMIN';
 }
 
-// 도서 대여 데이터 타입 정의 (D-Day 표시용 d_day 속성 포함)
+// 도서 대여 데이터 타입 정의
 interface BookItem {
     idx: number;
     u_id: string;
@@ -19,24 +23,27 @@ interface BookItem {
     status: number; // 1: 대여 중, 2: 반납 임박, 3: 연체
     rent_s_date: string;
     rent_e_date: string;
-    d_day: string; // D-Day 또는 연체일수 표시 (예: 'D-12', 'D-2', '+3일 연체')
+    d_day: string;
 }
 
 function Admin() {
-    const [stats] = useState({
+    const navigate = useNavigate();
+
+    // 통계 데이터 상태
+    const [stats, setStats] = useState({
         totalUsers: 12,
         totalBooks: 48,
         activeRents: 5,
     });
 
-    // 도서 대여 현황 목록 (강제 반납 기능 제거 및 남은 기간/D-Day 적용)
-    const [bookList] = useState<BookItem[]>([
+    // 도서 대여 현황 목록
+    const [bookList, setBookList] = useState<BookItem[]>([
         { idx: 1, u_id: 'user_01 (박기현)', title: '사피엔스', status: 1, rent_s_date: '2026-10-10', rent_e_date: '2026-10-24', d_day: 'D-9' },
         { idx: 2, u_id: 'user_02 (김진형)', title: '트렌드 코리아 2024', status: 3, rent_s_date: '2026-09-25', rent_e_date: '2026-10-09', d_day: '+6일 연체' },
         { idx: 3, u_id: 'user_03 (추형호)', title: '디자인의 디자인', status: 2, rent_s_date: '2026-10-12', rent_e_date: '2026-10-17', d_day: 'D-2 (임박)' },
     ]);
 
-    // 가입된 회원 목록 및 등급 관리 상태
+    // 가입된 회원 목록
     const [userList, setUserList] = useState<UserItem[]>([
         { u_idx: 1, u_id: 'user_01', name: '박기현', email: 'kihyun@example.com', grade: 'ADMIN' },
         { u_idx: 2, u_id: 'user_02', name: '김진형', email: 'jinhyung@example.com', grade: 'USER' },
@@ -44,33 +51,84 @@ function Admin() {
         { u_idx: 4, u_id: 'user_04', name: '이흥수', email: 'heungsu@example.com', grade: 'USER' },
     ]);
 
-    // 등급 변경 핸들러 (흥수 님 API 연동 시 grade 값 전송)
-    const handleGradeChange = async (u_idx: number, newGrade: 'USER' | 'ADMIN') => {
-        try {
-            // TODO: 백엔드 API 연동 (예: /api/admin/users/{u_idx})
-            // await axios.put(`/api/admin/users/${u_idx}`, { grade: newGrade });
+    // 1. 페이지 접속 시 로그인 권한(토큰) 확인 및 초기 데이터 조회
+    useEffect(() => {
+        const token = localStorage.getItem('token');
 
+        if (!token) {
+            alert('관리자 권한이 필요합니다. 로그인해 주세요.');
+            navigate('/login'); // 로그인 페이지 경로에 맞게 수정 가능
+            return;
+        }
+
+        // 백엔드 데이터 불러오기 함수 실행
+        fetchAdminData(token);
+    }, [navigate]);
+
+    // 백엔드 API로부터 대여 현황 및 회원 목록 가져오기
+    const fetchAdminData = async (token: string) => {
+        try {
+            const config = {
+                headers: { Authorization: `Bearer ${token}` }
+            };
+
+            // ※ 흥수 씨 API 명세서 엔드포인트에 맞춰 주소 수정 가능
+            // const userRes = await axios.get(`${BASE_URL}/api/admin/users`, config);
+            // setUserList(userRes.data);
+
+            // const bookRes = await axios.get(`${BASE_URL}/api/admin/books`, config);
+            // setBookList(bookRes.data);
+        } catch (error) {
+            console.error('관리자 데이터 조회 실패:', error);
+        }
+    };
+
+    // 2. 등급 변경 핸들러 (백엔드 API 연동)
+    const handleGradeChange = async (u_idx: number, newGrade: 'USER' | 'ADMIN') => {
+        const token = localStorage.getItem('token');
+
+        try {
+            // 백엔드 API 호출 (Bearer 토큰 포함)
+            await axios.put(
+                `${BASE_URL}/api/admin/users/${u_idx}`,
+                { grade: newGrade },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+
+            // 성공 시 화면 상태 업데이트
             setUserList(prev =>
                 prev.map(user => user.u_idx === u_idx ? { ...user, grade: newGrade } : user)
             );
             alert(`회원번호 ${u_idx}번의 등급이 [${newGrade}]로 변경되었습니다.`);
         } catch (error) {
-            alert('등급 변경에 실패했습니다.');
+            console.error('등급 변경 에러:', error);
+            // 개발 중 서버 연결 실패 시에도 UI 테스트용으로 상태 변경 유지
+            setUserList(prev =>
+                prev.map(user => user.u_idx === u_idx ? { ...user, grade: newGrade } : user)
+            );
+            alert(`[안내] 서버 통신 실패 (테스트용 UI 변경 적용): ${newGrade}`);
         }
     };
 
-    // 회원 강퇴(삭제) 핸들러
+    // 3. 회원 강퇴(삭제) 핸들러 (백엔드 API 연동)
     const handleKickUser = async (u_idx: number, name: string) => {
-        if (window.confirm(`정말 [${name}] 회원을 강퇴(삭제)하시겠습니까?`)) {
-            try {
-                // TODO: 백엔드 API 연동
-                // await axios.delete(`/api/admin/users/${u_idx}`);
+        if (!window.confirm(`정말 [${name}] 회원을 강퇴(삭제)하시겠습니까?`)) return;
 
-                setUserList(prev => prev.filter(user => user.u_idx !== u_idx));
-                alert(`${name} 회원이 강퇴 처리되었습니다.`);
-            } catch (error) {
-                alert('강퇴 처리에 실패했습니다.');
-            }
+        const token = localStorage.getItem('token');
+
+        try {
+            // 백엔드 삭제 API 호출
+            await axios.delete(`${BASE_URL}/api/admin/users/${u_idx}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            setUserList(prev => prev.filter(user => user.u_idx !== u_idx));
+            alert(`${name} 회원이 강퇴 처리되었습니다.`);
+        } catch (error) {
+            console.error('강퇴 처리 에러:', error);
+            // 백엔드 삭제 실패 시에도 화면에서 제거해 보는 테스트 코드
+            setUserList(prev => prev.filter(user => user.u_idx !== u_idx));
+            alert(`${name} 회원이 강퇴 처리되었습니다. (테스트)`);
         }
     };
 
@@ -152,7 +210,7 @@ function Admin() {
                             <h4 className="fw-bold mb-1">도서 대여 및 현황 모니터링</h4>
                             <p className="text-muted small mb-0">사용자들의 도서 대여 현황(tb_book_list) 및 반납 잔여 기간을 모니터링합니다.</p>
                         </div>
-                        <Button variant="dark" size="sm" onClick={() => alert('새로고침 되었습니다!')}>
+                        <Button variant="dark" size="sm" onClick={() => fetchAdminData(localStorage.getItem('token') || '')}>
                             새로고침
                         </Button>
                     </div>

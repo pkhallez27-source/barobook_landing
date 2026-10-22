@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import mainAppImage from '../assets/mainapp.png';
 
-function LandingPage() {
+function Landing() {
     // 스크롤 시 섹션 및 카드/타이틀들이 나타나도록 감지하는 이펙트
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -44,10 +45,24 @@ function LandingPage() {
         .delay-3 { transition-delay: 0.45s; }
       `}</style>
 
-            {/* 1. 상단 네비게이션 바 */}
-            <nav className="navbar navbar-dark bg-dark px-4 py-3 shadow-sm">
-                <div className="container-fluid">
+            {/* 1. 상단 네비게이션 바 (로그인 버튼 새 창 열기 적용) */}
+            <nav className="navbar navbar-dark bg-dark px-4 py-3 shadow-sm sticky-top">
+                <div className="container-fluid d-flex justify-content-between align-items-center">
                     <span className="navbar-brand fw-bold fs-4">📚 바로북 (Barobook)</span>
+                    <div className="d-flex align-items-center gap-3">
+                        <a href="#features" className="text-white-50 text-decoration-none small d-none d-md-inline">
+                            주요기능
+                        </a>
+                        {/* target="_blank"로 클릭 시 새 창/새 탭에서 로그인 페이지 열림 */}
+                        <Link
+                            to="/login"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn btn-outline-warning btn-sm fw-bold px-3 rounded-pill"
+                        >
+                            🔑 로그인 / 관리자
+                        </Link>
+                    </div>
                 </div>
             </nav>
 
@@ -79,7 +94,7 @@ function LandingPage() {
                                     rel="noopener noreferrer"
                                     className="btn btn-primary btn-lg px-4 fw-bold shadow-sm"
                                 >
-                                    🚀 바로북앱 바로가기
+                                    🚀 바로북 웹/앱 실행하기
                                 </a>
                             </div>
                         </div>
@@ -87,7 +102,7 @@ function LandingPage() {
                 </div>
             </header>
 
-            {/* [블록 2] 주요 기능 소개 카드 섹션 (타이틀 및 카드별 순차 등장) */}
+            {/* [블록 2] 주요 기능 소개 카드 섹션 */}
             <section id="features" className="py-5 bg-light">
                 <div className="container px-4 py-5">
                     <div className="text-center mb-5 fade-in-section delay-0">
@@ -136,7 +151,7 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* [블록 3] 이용 방법 / 프로세스 섹션 (타이틀 및 단계별 항목 순차 등장) */}
+            {/* [블록 3] 이용 방법 / 프로세스 섹션 */}
             <section className="py-5 bg-white border-top">
                 <div className="container px-4 py-5">
                     <div className="text-center mb-5 fade-in-section delay-0">
@@ -179,12 +194,12 @@ function LandingPage() {
                     <h2 className="fw-bold mb-3">지금 바로 스마트한 독서를 시작해보세요!</h2>
                     <p className="lead mb-4 text-white-50">바로북과 함께 당신의 독서 성장을 기록해 드립니다.</p>
                     <a
-                        href="https://play.google.com"
+                        href="http://barobook.kro.kr/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn-light btn-lg fw-bold px-5 text-primary shadow"
                     >
-                        바로북앱 다운로드
+                        바로북 서비스 시작하기
                     </a>
                 </div>
             </section>
@@ -193,9 +208,14 @@ function LandingPage() {
                 <div className="container">
                     <p className="mb-0 text-white-50">
                         &copy; 2026 Barobook Project Team. All rights reserved.
-                        <a href="/admin" className="text-white-50 text-decoration-none ms-3 fw-bold">
+                        <Link
+                            to="/login"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-white-50 text-decoration-none ms-3 fw-bold"
+                        >
                             [ADMIN]
-                        </a>
+                        </Link>
                     </p>
                 </div>
             </footer>
@@ -204,4 +224,4 @@ function LandingPage() {
     );
 }
 
-export default LandingPage;
+export default Landing;

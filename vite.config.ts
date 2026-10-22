@@ -10,8 +10,8 @@ export default defineConfig({
       //  리액트 내부에서 사용할 접속 주소를 입력
       '/api': {
         //  실제 접속할 서버의 주소 입력
-        target: 'http://barobook.kro.kr',
-        // target: 'http://localhost:8080',
+        // target: 'http://barobook.kro.kr',
+        target: 'http://localhost:8080',
         //  CORS 해결 설정, true = 사용, false = 미사용
         changeOrigin: true,
         //  프록시 서버에서 사용할 URL 경로를 입력

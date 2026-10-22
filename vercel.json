@@ -1,7 +1,7 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" },
-    { "source": "/api/:path*", "destination" : "http://barobook.kro.kr/api/:path*"}
+    { "source": "/api/:path*", "destination" : "http://barobook.kro.kr/api/:path*"},
+    { "source": "/(.*)", "destination": "/index.html" }
 
   ]
 }

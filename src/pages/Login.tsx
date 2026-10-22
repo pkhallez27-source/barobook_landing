@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // 1. useNavigate 추가
 
-const BASE_URL = '//barobook.kro.kr';
+const BASE_URL = '';
 
 interface LoginProps {
     onLoginSuccess?: () => void;

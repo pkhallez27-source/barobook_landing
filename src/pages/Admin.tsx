@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 // 백엔드 기본 도메인 주소
-const BASE_URL = 'http://barobook.kro.kr';
+const BASE_URL = '';
 
 // 회원 데이터 타입 정의
 interface UserItem {

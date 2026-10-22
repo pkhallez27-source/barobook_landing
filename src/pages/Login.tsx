@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // 1. useNavigate 추가
 
 interface LoginProps {
     onLoginSuccess?: () => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
+    const navigate = useNavigate(); // 2. 네비게이트 함수 선언
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -24,8 +27,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
         setIsLoading(true);
 
         try {
-            // 2. 백엔드 로그인 API 통신 (배포된 서버 도메인 적용)
-            // ※ 명세서 상의 세부 로그인 경로가 /login 이라면 'http://barobook.kro.kr/login' 으로 뒤쪽 경로만 맞춰주세요.
+            // 2. 백엔드 로그인 API 통신
             const response = await axios.post('http://barobook.kro.kr/api/login', {
                 email: email,
                 password: password,
@@ -42,14 +44,17 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                 localStorage.setItem('user', JSON.stringify(response.data));
             }
 
-            // 4. 로그인 성공 콜백 실행
+            // 4. 로그인 성공 콜백 실행 및 관리자 페이지(/admin)로 이동
             if (onLoginSuccess) {
                 onLoginSuccess();
             }
+
+            // 🌟 로그인 성공 시 관리자 페이지로 이동
+            navigate('/admin');
+
         } catch (err: any) {
             console.error('로그인 연동 에러:', err);
 
-            // 서버에서 내려주는 에러 메시지가 있다면 표시, 없으면 기본 메시지 안내
             if (err.response && err.response.data && err.response.data.message) {
                 setError(err.response.data.message);
             } else {

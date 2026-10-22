@@ -38,7 +38,7 @@ function Admin() {
   });
 
   const getBookList = async () => {
-    await axios.get('/api/admin/book/list')
+    await axios.get(`${BASE_URL}/api/admin/book/list`)
       .then((res) => {
         const data = res.data;
         setBookList(data.data);
@@ -49,7 +49,7 @@ function Admin() {
   }
 
   const getAllCount = async () => {
-    await axios.get('/api/admin/count')
+    await axios.get(`${BASE_URL}/api/admin/count`)
       .then((res) => {
         const data = res.data;
         setStats(data.data);
@@ -60,7 +60,7 @@ function Admin() {
   }
 
   const getAllUsers = async () => {
-    await axios.get('/api/admin/users')
+    await axios.get(`${BASE_URL}/api/admin/users`)
       .then((res) => {
         const data = res.data;
         setUserList(data.data);

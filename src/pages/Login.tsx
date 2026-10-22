@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // 1. useNavigate 추가
 
+const BASE_URL = 'http://barobook.kro.kr';
+
 interface LoginProps {
     onLoginSuccess?: () => void;
 }
@@ -28,7 +30,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
         try {
             // 2. 백엔드 로그인 API 통신
-            const response = await axios.post('/api/user/exists', {
+            const response = await axios.post(`${BASE_URL}/api/user/exists`, {
                 email: email,
                 password: password,
             });

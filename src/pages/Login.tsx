@@ -48,9 +48,12 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
             if (onLoginSuccess) {
                 onLoginSuccess();
             }
-
+            if(response.data.data.grade == 99){
             // 🌟 로그인 성공 시 관리자 페이지로 이동
-            navigate('/admin');
+                navigate('/admin');
+            }else{
+                setError('관리자 권한이 없습니다.');
+            }
 
         } catch (err: any) {
             console.error('로그인 연동 에러:', err);

@@ -51,22 +51,25 @@ function Admin() {
         { u_idx: 4, u_id: 'user_04', name: '이흥수', email: 'heungsu@example.com', grade: 'USER' },
     ]);
 
-    // 1. 페이지 접속 시 로그인 권한(토큰) 확인 및 초기 데이터 조회
+    // 1. 페이지 접속 시 초기 데이터 조회 (테스트를 위해 로그인 필수 체크 주석 처리)
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token') || 'temp_test_token';
 
+        /*
+        // [테스트/시연용 주석 처리: 누구나 바로 진입 가능]
         if (!token) {
             alert('관리자 권한이 필요합니다. 로그인해 주세요.');
             navigate('/login');
             return;
         }
+        */
 
         fetchAdminData(token);
     }, [navigate]);
 
     // 백엔드 API로부터 대여 현황 및 회원 목록 가져오기
     const fetchAdminData = (token: string) => {
-        console.log('관리자 로그인 권한 확인 완료. 토큰:', token);
+        console.log('관리자 페이지 진입 완료. (토큰/접근 허용됨):', token);
         /*
         // [백엔드 API 연동 시 주석 해제]
         try {

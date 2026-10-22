@@ -28,7 +28,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
         try {
             // 2. 백엔드 로그인 API 통신
-            const response = await axios.post('http://barobook.kro.kr/api/login', {
+            const response = await axios.post('/api/user/exists', {
                 email: email,
                 password: password,
             });
